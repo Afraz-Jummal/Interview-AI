@@ -109,13 +109,10 @@ export const useInterview = () => {
 
     useEffect(() => {
 
-    console.log("Interview ID:", interviewId)
 
     if (interviewId) {
         getReportById(interviewId)
-    } else {
-        getReports()
-    }
+    } 
 
 }, [interviewId])
 
