@@ -30,34 +30,63 @@ export const useInterview = () => {
         return response.interviewReport
     }
 
-    const getReportById = async (interviewId) => {
-        setLoading(true)
-        let response = null
-        try {
-            response = await getInterviewReportById(interviewId)
+  const getReportById = async (interviewId) => {
+
+    setLoading(true)
+
+    try {
+
+        const response = await getInterviewReportById(interviewId)
+
+        console.log(response)
+
+        if (response?.interviewReport) {
             setReport(response.interviewReport)
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false)
+            return response.interviewReport
         }
-        return response.interviewReport
+
+        return null
+
+    } catch (error) {
+
+        console.log(error.response?.data || error)
+        return null
+
+    } finally {
+
+        setLoading(false)
+
     }
+}
 
     const getReports = async () => {
-        setLoading(true)
-        let response = null
-        try {
-            response = await getAllInterviewReports()
+
+    setLoading(true)
+
+    try {
+
+        const response = await getAllInterviewReports()
+
+        console.log(response)
+
+        if (response?.interviewReports) {
             setReports(response.interviewReports)
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false)
+            return response.interviewReports
         }
 
-        return response.interviewReports
+        return []
+
+    } catch (error) {
+
+        console.log(error.response?.data || error)
+        return []
+
+    } finally {
+
+        setLoading(false)
+
     }
+}
 
     const getResumePdf = async (interviewReportId) => {
         setLoading(true)
@@ -79,12 +108,16 @@ export const useInterview = () => {
     }
 
     useEffect(() => {
-        if (interviewId) {
-            getReportById(interviewId)
-        } else {
-            getReports()
-        }
-    }, [ interviewId ])
+
+    console.log("Interview ID:", interviewId)
+
+    if (interviewId) {
+        getReportById(interviewId)
+    } else {
+        getReports()
+    }
+
+}, [interviewId])
 
     return { loading, report, reports, generateReport, getReportById, getReports, getResumePdf }
 
