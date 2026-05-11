@@ -38,8 +38,6 @@ export const useInterview = () => {
 
         const response = await getInterviewReportById(interviewId)
 
-        console.log(response)
-
         if (response?.interviewReport) {
             setReport(response.interviewReport)
             return response.interviewReport
