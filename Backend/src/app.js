@@ -7,7 +7,7 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: "https://interview-ai-backend-w5kx.onrender.com",
+    origin: "interview-ai-d1s1.vercel.app",
     credentials: true
 }))
 
