@@ -65,7 +65,7 @@ export const useInterview = () => {
 
         const response = await getAllInterviewReports()
 
-        console.log(response)
+       
 
         if (response?.interviewReports) {
             setReports(response.interviewReports)
