@@ -8,52 +8,52 @@ const interviewReportModel = require("../models/interviewReport.model")
 /**
  * @description Controller to generate interview report based on user self description, resume and job description.
  */
-async function generateInterviewReportController(req, res) {
+// async function generateInterviewReportController(req, res) {
   
-try {
+// try {
     
-    //  const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
+//     //  const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
     
-    const PDFParse = await pdfParse(req.file.buffer)   
-    const resumeContent = PDFParse.text
-    
-    
-     const { selfDescription, jobDescription } = req.body
+//     const PDFParse = await pdfParse(req.file.buffer)   
+//     const resumeContent = PDFParse.text
     
     
-        const interViewReportByAi = await generateInterviewReport({
-            resume: resumeContent,
-            selfDescription,
-            jobDescription
-        })
+//      const { selfDescription, jobDescription } = req.body
     
     
-    
-    
-        const interviewReport = await interviewReportModel.create({
-            user: req.user.id,
-            resume: resumeContent,
-            selfDescription,
-            jobDescription,
-            ...interViewReportByAi
-        })
+//         const interViewReportByAi = await generateInterviewReport({
+//             resume: resumeContent,
+//             selfDescription,
+//             jobDescription
+//         })
     
     
     
-        res.status(201).json({
-            message: "Interview report generated successfully.",
-            interviewReport
-        })
     
-} catch (error) {
+//         const interviewReport = await interviewReportModel.create({
+//             user: req.user.id,
+//             resume: resumeContent,
+//             selfDescription,
+//             jobDescription,
+//             ...interViewReportByAi
+//         })
+    
+    
+    
+//         res.status(201).json({
+//             message: "Interview report generated successfully.",
+//             interviewReport
+//         })
+    
+// } catch (error) {
 
-        console.error(error)
+//         console.error(error)
 
-        res.status(500).json({
-            message: error.message
-        })
-    }
-}
+//         res.status(500).json({
+//             message: error.message
+//         })
+//     }
+// }
 
 
 /**
@@ -118,5 +118,74 @@ async function generateResumePdfController(req, res) {
 
     res.send(pdfBuffer)
 }
+
+async function generateInterviewReportController(req, res) {
+
+    try {
+
+        console.log("========= REQUEST START =========")
+
+        console.log("BODY:")
+        console.log(req.body)
+
+        console.log("FILE:")
+        console.log(req.file)
+
+        if (!req.file) {
+            return res.status(400).json({
+                message: "Resume file missing"
+            })
+        }
+
+        const PDFParse = await pdfParse(req.file.buffer)
+
+        console.log("PDF PARSED SUCCESSFULLY")
+
+        const resumeContent = PDFParse.text
+
+        const { selfDescription, jobDescription } = req.body
+
+        console.log("CALLING GEMINI...")
+
+        const interViewReportByAi = await generateInterviewReport({
+            resume: resumeContent,
+            selfDescription,
+            jobDescription
+        })
+
+        console.log("GEMINI RESPONSE:")
+        console.log(interViewReportByAi)
+
+        console.log("SAVING TO MONGODB...")
+
+        const interviewReport = await interviewReportModel.create({
+            user: req.user.id,
+            resume: resumeContent,
+            selfDescription,
+            jobDescription,
+            ...interViewReportByAi
+        })
+
+        console.log("MONGODB SAVE SUCCESS")
+
+        res.status(201).json({
+            message: "Interview report generated successfully.",
+            interviewReport
+        })
+
+    } catch (error) {
+
+        console.error("========= BACKEND ERROR =========")
+        console.error(error)
+
+        return res.status(500).json({
+            message: error.message,
+            stack: error.stack
+        })
+    }
+}
+
+
+
 
 module.exports = { generateInterviewReportController, getInterviewReportByIdController, getAllInterviewReportsController, generateResumePdfController }
