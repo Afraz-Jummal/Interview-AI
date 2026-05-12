@@ -92,6 +92,8 @@ async function loginUserController(req, res) {
         { expiresIn: "1d" }
     )
 
+    // res.cookie("token", token)
+
   res.cookie("token", token, {
     httpOnly: true,
     secure: true,
@@ -103,7 +105,8 @@ async function loginUserController(req, res) {
         user: {
             id: user._id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            
         }
     })
 }

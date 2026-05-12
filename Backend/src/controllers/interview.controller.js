@@ -11,14 +11,9 @@ const interviewReportModel = require("../models/interviewReport.model")
 async function generateInterviewReportController(req, res) {
   
 
-      console.log(req.body)
-      console.log(req.file)
-
-   
-
- const resumeContent = await (new pdfParse(Uint8Array.from(req.file.buffer))).getText()
+ const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
  const { selfDescription, jobDescription } = req.body
- console.log("PDF parsed successfully")
+
 
     const interViewReportByAi = await generateInterviewReport({
         resume: resumeContent.text,
@@ -26,7 +21,7 @@ async function generateInterviewReportController(req, res) {
         jobDescription
     })
 
-      console.log("AI response:", interViewReportByAi)
+
 
 
     const interviewReport = await interviewReportModel.create({
@@ -37,7 +32,7 @@ async function generateInterviewReportController(req, res) {
         ...interViewReportByAi
     })
 
-    console.log("MongoDB save successful")
+
 
     res.status(201).json({
         message: "Interview report generated successfully.",
