@@ -150,7 +150,7 @@ async function generateInterviewReportController(req, res) {
         console.log("CALLING GEMINI...")
 
         const interViewReportByAi = await generateInterviewReport({
-            resume: resumeContent,
+            resume: resumeContent.text || resumeContent,
             selfDescription,
             jobDescription
         })
@@ -162,7 +162,7 @@ async function generateInterviewReportController(req, res) {
 
         const interviewReport = await interviewReportModel.create({
             user: req.user.id,
-            resume: resumeContent,
+            resume: resumeContent.text || resumeContent,
             selfDescription,
             jobDescription,
             ...interViewReportByAi
