@@ -11,18 +11,23 @@ const api = axios.create({
  */
 export const generateInterviewReport = async ({ jobDescription, selfDescription, resumeFile }) => {
 
+     console.log({
+      jobDescription,
+      selfDescription,
+      resumeFile
+   })
+
+
     const formData = new FormData()
     formData.append("jobDescription", jobDescription)
     formData.append("selfDescription", selfDescription)
     formData.append("resume", resumeFile)
 
-    console.log(formData)
+    for (let pair of formData.entries()) {
+      console.log(pair[0], pair[1])
+   }
 
-    const response = await api.post("/api/interview/", formData, {
-        headers: {
-            "Content-Type": "multipart/form-data"
-        }
-    })
+    const response = await api.post("/api/interview/", formData)
 
     return response.data
 
