@@ -12,7 +12,7 @@ const interviewReportModel = require("../models/interviewReport.model")
   
 // try {
     
-//     //  const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
+//  const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
     
 //     const PDFParse = await pdfParse(req.file.buffer)   
 //     const resumeContent = PDFParse.text
@@ -137,11 +137,13 @@ async function generateInterviewReportController(req, res) {
             })
         }
 
-        const PDFParse = await pdfParse(req.file.buffer)
+        // const PDFParse = await pdfParse(req.file.buffer)
 
-        console.log("PDF PARSED SUCCESSFULLY")
+        // console.log("PDF PARSED SUCCESSFULLY")
 
-        const resumeContent = PDFParse.text
+        // const resumeContent = PDFParse.text
+        
+         const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
 
         const { selfDescription, jobDescription } = req.body
 
