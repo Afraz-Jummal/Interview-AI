@@ -17,13 +17,17 @@ async function generateInterviewReportController(req, res) {
    
 
  const resumeContent = await (new pdfParse(Uint8Array.from(req.file.buffer))).getText()
-    const { selfDescription, jobDescription } = req.body
+ const { selfDescription, jobDescription } = req.body
+ console.log("PDF parsed successfully")
 
     const interViewReportByAi = await generateInterviewReport({
         resume: resumeContent.text,
         selfDescription,
         jobDescription
     })
+
+      console.log("AI response:", interViewReportByAi)
+
 
     const interviewReport = await interviewReportModel.create({
         user: req.user.id,
@@ -32,6 +36,8 @@ async function generateInterviewReportController(req, res) {
         jobDescription,
         ...interViewReportByAi
     })
+
+    console.log("MongoDB save successful")
 
     res.status(201).json({
         message: "Interview report generated successfully.",
