@@ -10,41 +10,51 @@ const interviewReportModel = require("../models/interviewReport.model")
  */
 async function generateInterviewReportController(req, res) {
   
+try {
+    
+    //  const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
+    
+    const PDFParse = await pdfParse(req.file.buffer)   
+    const resumeContent = PDFParse.text
+    
+    
+     const { selfDescription, jobDescription } = req.body
+    
+    
+        const interViewReportByAi = await generateInterviewReport({
+            resume: resumeContent,
+            selfDescription,
+            jobDescription
+        })
+    
+    
+    
+    
+        const interviewReport = await interviewReportModel.create({
+            user: req.user.id,
+            resume: resumeContent,
+            selfDescription,
+            jobDescription,
+            ...interViewReportByAi
+        })
+    
+    
+    
+        res.status(201).json({
+            message: "Interview report generated successfully.",
+            interviewReport
+        })
+    
+} catch (error) {
 
-//  const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
+        console.error(error)
 
-const PDFParse = await pdfParse(req.file.buffer)   
-const resumeContent = PDFParse.text
-
-
- const { selfDescription, jobDescription } = req.body
-
-
-    const interViewReportByAi = await generateInterviewReport({
-        resume: resumeContent,
-        selfDescription,
-        jobDescription
-    })
-
-
-
-
-    const interviewReport = await interviewReportModel.create({
-        user: req.user.id,
-        resume: resumeContent,
-        selfDescription,
-        jobDescription,
-        ...interViewReportByAi
-    })
-
-
-
-    res.status(201).json({
-        message: "Interview report generated successfully.",
-        interviewReport
-    })
-
+        res.status(500).json({
+            message: error.message
+        })
+    }
 }
+
 
 /**
  * @description Controller to get interview report by interviewId.
