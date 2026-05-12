@@ -12,11 +12,25 @@ const Home = () => {
 
     const navigate = useNavigate()
 
-    const handleGenerateReport = async () => {
-        const resumeFile = resumeInputRef.current.files[ 0 ]
-        const data = await generateReport({ jobDescription, selfDescription, resumeFile })
-        navigate(`/interview/${data._id}`)
+   const handleGenerateReport = async () => {
+
+    const resumeFile = resumeInputRef.current.files[0]
+
+    const data = await generateReport({
+        jobDescription,
+        selfDescription,
+        resumeFile
+    })
+
+    if (!data?._id) {
+        console.error("Interview report generation failed")
+        return
     }
+
+    navigate(`/interview/${data._id}`)
+}
+
+
     useEffect(() => {
         
     getReports()
