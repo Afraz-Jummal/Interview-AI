@@ -105,7 +105,7 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
     })
 
 
-    const jsonContent = JSON.parse(response.text())
+    const jsonContent = JSON.parse(response.text)
 
    
     
