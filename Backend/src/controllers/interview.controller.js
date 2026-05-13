@@ -1,4 +1,4 @@
-const PDFParse = require("pdf-parse")
+const pdfParser = require("pdf-parse")
 
 const { generateInterviewReport, generateResumePdf } = require("../services/ai.service")
 const interviewReportModel = require("../models/interviewReport.model")
@@ -9,53 +9,31 @@ const interviewReportModel = require("../models/interviewReport.model")
 /**
  * @description Controller to generate interview report based on user self description, resume and job description.
  */
-// async function generateInterviewReportController(req, res) {
-  
-// try {
-    
-//  const resumeContent = await (new PDFParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
-    
-//     const PDFParse = await PDFParse(req.file.buffer)   
-//     const resumeContent = PDFParse.text
-    
-    
-//      const { selfDescription, jobDescription } = req.body
-    
-    
-//         const interViewReportByAi = await generateInterviewReport({
-//             resume: resumeContent,
-//             selfDescription,
-//             jobDescription
-//         })
-    
-    
-    
-    
-//         const interviewReport = await interviewReportModel.create({
-//             user: req.user.id,
-//             resume: resumeContent,
-//             selfDescription,
-//             jobDescription,
-//             ...interViewReportByAi
-//         })
-    
-    
-    
-//         res.status(201).json({
-//             message: "Interview report generated successfully.",
-//             interviewReport
-//         })
-    
-// } catch (error) {
+async function generateInterviewReportController(req, res) {
 
-//         console.error(error)
+    const resumeContent = await (new pdfParser.PDFParse(Uint8Array.from(req.file.buffer))).getText()
+    const { selfDescription, jobDescription } = req.body
 
-//         res.status(500).json({
-//             message: error.message
-//         })
-//     }
-// }
+    const interviewReportByAi = await generateInterviewReport({
+        resume: resumeContent.text,
+        selfDescription,
+        jobDescription
+    })
 
+    const interviewReport = await interviewReportModel.create({
+        user: req.user.id,
+        resume: resumeContent.text,
+        selfDescription,
+        jobDescription,
+        ...interviewReportByAi
+    })
+
+    res.status(201).json({
+        message: "Interview report generated successfully.",
+        interviewReport
+    })
+
+}
 
 /**
  * @description Controller to get interview report by interviewId.
@@ -120,73 +98,73 @@ async function generateResumePdfController(req, res) {
     res.send(pdfBuffer)
 }
 
-async function generateInterviewReportController(req, res) {
+// async function generateInterviewReportController(req, res) {
 
-    try {
+//     try {
 
-        console.log("========= REQUEST START =========")
+//         console.log("========= REQUEST START =========")
 
-        console.log("BODY:")
-        console.log(req.body)
+//         console.log("BODY:")
+//         console.log(req.body)
 
-        console.log("FILE:")
-        console.log(req.file)
+//         console.log("FILE:")
+//         console.log(req.file)
 
-        if (!req.file) {
-            return res.status(400).json({
-                message: "Resume file missing"
-            })
-        }
+//         if (!req.file) {
+//             return res.status(400).json({
+//                 message: "Resume file missing"
+//             })
+//         }
 
-        // const PDFParse = await pdfParse(req.file.buffer)
+//         // const PDFParse = await pdfParse(req.file.buffer)
 
-        // console.log("PDF PARSED SUCCESSFULLY")
+//         // console.log("PDF PARSED SUCCESSFULLY")
 
-        // const resumeContent = PDFParse.text
+//         // const resumeContent = PDFParse.text
         
-         const resumeContent = await (new PDFParse(Uint8Array.from(req.file.buffer))).getText()
+//          const resumeContent = await (new PDFParse(Uint8Array.from(req.file.buffer))).getText()
 
-        const { selfDescription, jobDescription } = req.body
+//         const { selfDescription, jobDescription } = req.body
 
-        console.log("CALLING GEMINI...")
+//         console.log("CALLING GEMINI...")
 
-        const interViewReportByAi = await generateInterviewReport({
-            resume: resumeContent.text || resumeContent,
-            selfDescription,
-            jobDescription
-        })
+//         const interViewReportByAi = await generateInterviewReport({
+//             resume: resumeContent.text || resumeContent,
+//             selfDescription,
+//             jobDescription
+//         })
 
-        console.log("GEMINI RESPONSE:")
-        console.log(interViewReportByAi)
+//         console.log("GEMINI RESPONSE:")
+//         console.log(interViewReportByAi)
 
-        console.log("SAVING TO MONGODB...")
+//         console.log("SAVING TO MONGODB...")
 
-        const interviewReport = await interviewReportModel.create({
-            user: req.user.id,
-            resume: resumeContent.text || resumeContent,
-            selfDescription,
-            jobDescription,
-            ...interViewReportByAi
-        })
+//         const interviewReport = await interviewReportModel.create({
+//             user: req.user.id,
+//             resume: resumeContent.text || resumeContent,
+//             selfDescription,
+//             jobDescription,
+//             ...interViewReportByAi
+//         })
 
-        console.log("MONGODB SAVE SUCCESS")
+//         console.log("MONGODB SAVE SUCCESS")
 
-        res.status(201).json({
-            message: "Interview report generated successfully.",
-            interviewReport
-        })
+//         res.status(201).json({
+//             message: "Interview report generated successfully.",
+//             interviewReport
+//         })
 
-    } catch (error) {
+//     } catch (error) {
 
-        console.error("========= BACKEND ERROR =========")
-        console.error(error)
+//         console.error("========= BACKEND ERROR =========")
+//         console.error(error)
 
-        return res.status(500).json({
-            message: error.message,
-            stack: error.stack
-        })
-    }
-}
+//         return res.status(500).json({
+//             message: error.message,
+//             stack: error.stack
+//         })
+//     }
+// }
 
 
 
