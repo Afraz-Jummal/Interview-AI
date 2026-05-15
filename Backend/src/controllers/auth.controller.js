@@ -45,8 +45,7 @@ async function registerUserController(req, res) {
     res.cookie("token", token, {
     httpOnly: true,
     secure: true,
-    sameSite: "none",
-    domain: "interview-ai-1-5z8w.onrender.com" || "localhost",   
+    sameSite: "none", 
     });
     console.log("Cookie sent successfully");
 
@@ -100,8 +99,8 @@ async function loginUserController(req, res) {
     httpOnly: true,
     secure: true,
     sameSite: "none",
+    partitioned: true, 
      maxAge: 24 * 60 * 60 * 1000,
-        domain: "interview-ai-1-5z8w.onrender.com" || "localhost",  
     path: "/"
 });
 
@@ -129,10 +128,12 @@ async function logoutUserController(req, res) {
         await tokenBlacklistModel.create({ token })
     }
 
-    res.clearCookie("token", {
+   res.clearCookie("token", {
     httpOnly: true,
     secure: true,
     sameSite: "none",
+    partitioned: true,
+    path: "/"
 });
 
     res.status(200).json({
