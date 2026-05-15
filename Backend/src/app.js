@@ -6,7 +6,7 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
-
+app.enable('trust proxy'); 
 
 app.use(cors({
     origin: [
