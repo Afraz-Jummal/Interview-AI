@@ -46,7 +46,7 @@ async function registerUserController(req, res) {
     httpOnly: true,
     secure: true,
     sameSite: "none",
-    domain: interview-ai-backend-w5kx.onrender.com || "localhost",   
+    domain: "interview-ai-1-5z8w.onrender.com" || "localhost",   
     });
     console.log("Cookie sent successfully");
 
@@ -101,6 +101,7 @@ async function loginUserController(req, res) {
     secure: true,
     sameSite: "none",
      maxAge: 24 * 60 * 60 * 1000,
+        domain: "interview-ai-1-5z8w.onrender.com" || "localhost",  
     path: "/"
 });
 
