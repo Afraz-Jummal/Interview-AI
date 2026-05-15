@@ -46,7 +46,9 @@ async function registerUserController(req, res) {
     httpOnly: true,
     secure: true,
     sameSite: "none",
+    domain: interview-ai-backend-w5kx.onrender.com || "localhost",   
     });
+    console.log("Cookie sent successfully");
 
 
     res.status(201).json({
@@ -92,12 +94,14 @@ async function loginUserController(req, res) {
         { expiresIn: "1d" }
     )
 
-    // res.cookie("token", token)
+    
 
   res.cookie("token", token, {
     httpOnly: true,
     secure: true,
     sameSite: "none",
+     maxAge: 24 * 60 * 60 * 1000,
+    path: "/"
 });
 
     res.status(200).json({
