@@ -47,7 +47,7 @@ async function registerUserController(req, res) {
     secure: true,
     sameSite: "none", 
     });
-    console.log("Cookie sent successfully");
+   
 
 
     res.status(201).json({
