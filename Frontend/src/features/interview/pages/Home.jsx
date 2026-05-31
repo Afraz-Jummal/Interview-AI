@@ -52,15 +52,24 @@ const Home = () => {
     return (
         <div className='home-page'>
 
-            {/* Page Header */}
-            <header className='page-header'>
-                <h1>Create Your Custom <span className='highlight'>Interview Plan</span></h1>
-                <p>Let our AI analyze the job requirements and your unique profile to build a winning strategy.</p>
-            </header>
+            <div className='home-page__topbar'>
+                {/* Page Header */}
+                <header className='page-header'>
+                    <h1>Create Your Custom <span className='highlight'>Interview Plan</span></h1>
+                    <p>Let our AI analyze the job requirements and your unique profile to build a winning strategy.</p>
+                </header>
+
+                <button
+                    onClick={handleLogout}
+                    className='logout-btn'>
+                    Logout
+                </button>
+            </div>
 
             {/* Main Card */}
             <div className='interview-card'>
                 <div className='interview-card__body'>
+                    
 
                     {/* Left Panel - Job Description */}
                     <div className='panel panel--left'>
@@ -82,6 +91,7 @@ const Home = () => {
 
                     {/* Vertical Divider */}
                     <div className='panel-divider' />
+                    
 
                     {/* Right Panel - Profile */}
                     <div className='panel panel--right'>
@@ -90,11 +100,7 @@ const Home = () => {
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
                             </span>
                             <h2>Your Profile</h2>
-                            <button
-                            onClick={handleLogout} 
-                            className='generate-btn'>
-                                Logout
-                                </button>
+                           
                         </div>
 
                         {/* Upload Resume */}
@@ -133,7 +139,7 @@ const Home = () => {
                             <span className='info-box__icon'>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" stroke="#1a1f27" strokeWidth="2" /><line x1="12" y1="16" x2="12.01" y2="16" stroke="#1a1f27" strokeWidth="2" /></svg>
                             </span>
-                            <p>Either a <strong>Resume</strong> or a <strong>Self Description</strong> is required to generate a personalized plan.</p>
+                            <p>Either a <strong>Resume</strong> and <strong>Self Description</strong> is required to generate a personalized plan.</p>
                         </div>
                     </div>
                 </div>

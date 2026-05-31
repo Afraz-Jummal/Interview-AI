@@ -1,486 +1,875 @@
-// ── Shared Variables (mirrors home.scss theme) ────────────────────────────────
-$bg-page: #0d1117;
-$bg-card: #161b22;
-$bg-panel: #1c2230;
-$bg-input: #1e2535;
-$border-color: #2a3348;
-$text-primary: #e6edf3;
-$text-muted: #7d8590;
-$accent: #ff2d78;
-$font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-
-// severity palette
-$severity-high: #ff4d4d;
-$severity-medium: #f5a623;
-$severity-low: #3fb950;
+$bg-page: #081114;
+$bg-card: #10161f;
+$bg-card-soft: #141d28;
+$bg-panel: #151e2a;
+$border-color: rgba(235, 223, 154, 0.16);
+$border-strong: rgba(255, 230, 0, 0.6);
+$text-primary: #f7f3dc;
+$text-soft: #c8c4a8;
+$text-muted: #8f968f;
+$accent: #ffe600;
+$accent-alt: #fff45f;
+$accent-dark: #131500;
+$success: #39e77a;
+$warning: #ffb84d;
+$danger: #ff5d4f;
+$font-stack: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
 *::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
-// ── Page Shell ────────────────────────────────────────────────────────────────
+.loading-screen,
 .interview-page {
-    width: 100%;
-    min-height: 100vh;
-    background-color: $bg-page;
-    color: $text-primary;
-    font-family: $font-stack;
-    display: flex;
-    align-items: stretch;
-    padding: 1.5rem;
-    box-sizing: border-box;
+  min-height: 100svh;
+  width: 100%;
+  background:
+    linear-gradient(145deg, rgba(19, 35, 36, 0.94), rgba(6, 12, 15, 1) 42%, rgba(8, 12, 10, 1)),
+    $bg-page;
+  color: $text-primary;
+  font-family: $font-stack;
 }
 
-// ── 3-Column Layout ───────────────────────────────────────────────────────────
+.loading-screen {
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  text-align: center;
+
+  h1 {
+    color: $text-soft;
+    font-size: clamp(1.35rem, 4vw, 2.6rem);
+  }
+}
+
+.interview-page {
+  padding: clamp(1rem, 2vw, 1.8rem);
+}
+
 .interview-layout {
-    display: flex;
-    width: 100%;
-    max-width: 1280px;
-    margin: 0 auto;
-    background-color: $bg-card;
-    border: 1px solid $border-color;
-    border-radius: 1rem;
-    justify-content: space-between;
+  width: min(100%, 1420px);
+  min-height: calc(100svh - clamp(2rem, 4vw, 3.6rem));
+  margin: 0 auto;
+  display: flex;
+  overflow: hidden;
+  border: 1px solid $border-color;
+  border-radius: 1.25rem;
+  background:
+    linear-gradient(135deg, rgba(20, 28, 38, 0.98), rgba(12, 17, 23, 0.98)),
+    $bg-card;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
 }
 
-.interview-divider {
-    width: 1px;
-    background-color: $border-color;
-    flex-shrink: 0;
+.interview-divider,
+.sidebar-divider {
+  flex: 0 0 1px;
+  background: $border-color;
 }
 
-// ── Left Nav ─────────────────────────────────────────────────────────────────
+.interview-nav,
+.interview-content,
+.interview-sidebar {
+  min-width: 0;
+}
+
 .interview-nav {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1.75rem 1rem;
-
-    // Container for bottom buttons
-    &__bottom-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem; 
-    }
-
-
-
-
-
-
-
-    &__label {
-        font-size: 0.7rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: $text-muted;
-        padding: 0 0.75rem;
-        margin-bottom: 0.5rem;
-    }
-
-    &__item {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-        width: 100%;
-        padding: 0.65rem 0.75rem;
-        background: none;
-        border: none;
-        border-radius: 0.5rem;
-        color: $text-muted;
-        font-family: $font-stack;
-        font-size: 0.875rem;
-        cursor: pointer;
-        text-align: left;
-        transition: background-color 0.15s, color 0.15s;
-
-        &:hover {
-            background-color: $bg-panel;
-            color: $text-primary;
-        }
-
-        &--active {
-            background-color: rgba($accent, 0.1);
-            color: $accent;
-
-            .interview-nav__icon svg {
-                stroke: $accent;
-            }
-        }
-    }
-
-    &__icon {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
-    }
+  width: 270px;
+  flex: 0 0 270px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 1.4rem;
 }
 
-// ── Center Content ────────────────────────────────────────────────────────────
+.nav-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.interview-nav__label,
+.match-score__label,
+.skill-gaps__label {
+  margin: 0;
+  color: $text-soft;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.interview-nav__label {
+  padding: 0 0.35rem 0.25rem;
+}
+
+.interview-nav__item {
+  width: 100%;
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid transparent;
+  border-radius: 0.85rem;
+  background: transparent;
+  color: $text-soft;
+  cursor: pointer;
+  font: 700 0.94rem/1.2 $font-stack;
+  text-align: left;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    color: $text-primary;
+    background: rgba(255, 255, 255, 0.045);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  &--active {
+    color: $accent;
+    border-color: rgba($accent, 0.72);
+    background: rgba($accent, 0.08);
+    box-shadow: inset 0 0 22px rgba($accent, 0.04);
+  }
+}
+
+.interview-nav__icon {
+  width: 1.35rem;
+  height: 1.35rem;
+  flex: 0 0 1.35rem;
+  display: grid;
+  place-items: center;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    stroke-width: 2.25;
+  }
+}
+
+.interview-nav__bottom-buttons {
+  display: flex;
+}
+
+.button.btn-resume,
+.button.btn-logout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  border: 1px solid transparent;
+  font-family: $font-stack;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+
+  &::before {
+    content: "";
+    width: 1.35rem;
+    height: 1.35rem;
+    flex: 0 0 1.35rem;
+    background: currentColor;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    -webkit-mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+}
+
+.button.primary-button.btn-resume {
+  width: 100%;
+  min-height: 3.35rem;
+  padding: 0.95rem 1.1rem;
+  border-radius: 0.9rem;
+  background: linear-gradient(180deg, #fff45f, #ffe600);
+  color: #131500;
+  box-shadow: 0 14px 34px rgba($accent, 0.24);
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+
+  svg {
+    display: none;
+  }
+
+  &::before {
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12'/%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3Cpath d='M5 19h14'/%3E%3Cpath d='M5 15v4h14v-4'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12'/%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3Cpath d='M5 19h14'/%3E%3Cpath d='M5 15v4h14v-4'/%3E%3C/svg%3E");
+  }
+}
+
+.button.primary-button.btn-logout {
+  min-height: 3.15rem;
+  padding: 0.8rem 1.35rem;
+  border-radius: 1rem;
+  border-color: rgba($accent, 0.82);
+  background: linear-gradient(180deg, $accent-alt, $accent);
+  color: $accent-dark;
+  box-shadow: inset 0 0 20px rgba($accent, 0.03);
+  font-size: 0.95rem;
+
+  &::before {
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'/%3E%3Cpath d='M16 17l5-5-5-5'/%3E%3Cpath d='M21 12H9'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'/%3E%3Cpath d='M16 17l5-5-5-5'/%3E%3Cpath d='M21 12H9'/%3E%3C/svg%3E");
+  }
+}
+
 .interview-content {
-    flex: 1;
-    padding: 1.75rem 2rem;
-    overflow-y: auto;
-    min-height: initial;
-    max-height: calc(100vh - 3rem);
-    padding-bottom: 5rem;
-    align-items: flex-start;
-
-
-
-
-
-
-
-
-    section {
-        min-height: 100%;
-    }
+  flex: 1 1 auto;
+  max-height: calc(100svh - clamp(2rem, 4vw, 3.6rem));
+  overflow-y: auto;
+  padding: clamp(1.5rem, 2.8vw, 2.4rem);
 }
 
 .content-header {
-    display: flex;
-    align-items: baseline;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid $border-color;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid $border-color;
 
-    h2 {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: $text-primary;
-        margin: 0;
-    }
-
-    &__count {
-        font-size: 0.8rem;
-        color: $text-muted;
-        background-color: $bg-panel;
-        padding: 0.15rem 0.6rem;
-        border-radius: 2rem;
-        border: 1px solid $border-color;
-    }
+  h2 {
+    margin: 0;
+    color: $text-primary;
+    font-size: clamp(1.2rem, 2vw, 1.7rem);
+    font-weight: 850;
+    letter-spacing: 0;
+  }
 }
 
-// ── Question Cards ────────────────────────────────────────────────────────────
-.q-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+.content-header__count {
+  flex: 0 0 auto;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid $border-color;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  color: $text-soft;
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.q-list,
+.roadmap-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.q-card,
+.roadmap-day {
+  border: 1px solid $border-color;
+  border-radius: 0.85rem;
+  background: rgba(16, 22, 31, 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 .q-card {
-    background-color: $bg-panel;
-    border: 1px solid $border-color;
-    border-radius: 0.6rem;
-    overflow: hidden;
-    transition: border-color 0.2s;
+  overflow: hidden;
 
-    &:hover {
-        border-color: lighten($border-color, 8%);
-    }
-
-    &__header {
-        display: flex;
-        align-items: flex-start;
-        gap: 0.75rem;
-        padding: 0.9rem 1rem;
-        cursor: pointer;
-        user-select: none;
-    }
-
-    &__index {
-        flex-shrink: 0;
-        font-size: 0.7rem;
-        font-weight: 700;
-        color: $accent;
-        background-color: rgba($accent, 0.1);
-        border: 1px solid rgba($accent, 0.2);
-        border-radius: 0.3rem;
-        padding: 0.15rem 0.4rem;
-        margin-top: 2px;
-    }
-
-    &__question {
-        flex: 1;
-        margin: 0;
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: $text-primary;
-        line-height: 1.5;
-    }
-
-    &__chevron {
-        flex-shrink: 0;
-        color: $text-muted;
-        transition: transform 0.2s;
-        margin-top: 2px;
-
-        &--open {
-            transform: rotate(180deg);
-            color: $accent;
-        }
-    }
-
-    &__body {
-        padding: 0 1rem 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        border-top: 1px solid $border-color;
-        padding-top: 0.75rem;
-    }
-
-    &__section {
-        display: flex;
-        flex-direction: column;
-        gap: 0.4rem;
-
-        p {
-            margin: 0;
-            font-size: 0.835rem;
-            color: lighten($text-muted, 15%);
-            line-height: 1.6;
-        }
-    }
-
-    &__tag {
-        font-size: 0.68rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        padding: 0.15rem 0.5rem;
-        border-radius: 0.25rem;
-        width: fit-content;
-
-        &--intention {
-            color: #a78bfa;
-            background-color: rgba(#a78bfa, 0.1);
-            border: 1px solid rgba(#a78bfa, 0.2);
-        }
-
-        &--answer {
-            color: #3fb950;
-            background-color: rgba(#3fb950, 0.1);
-            border: 1px solid rgba(#3fb950, 0.2);
-        }
-    }
+  &:hover {
+    border-color: rgba($accent, 0.28);
+  }
 }
 
-// ── Road Map ──────────────────────────────────────────────────────────────────
-.roadmap-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    position: relative;
+.q-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 1rem;
+  cursor: pointer;
+  user-select: none;
+}
 
-    // vertical timeline line
-    &::before {
-        content: '';
-        position: absolute;
-        left: 28px;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: linear-gradient(to bottom, $accent, rgba($accent, 0.1));
-        border-radius: 1px;
-    }
+.q-card__index {
+  flex: 0 0 auto;
+  padding: 0.22rem 0.45rem;
+  border: 1px solid rgba($accent, 0.3);
+  border-radius: 0.45rem;
+  background: rgba($accent, 0.08);
+  color: $accent;
+  font-size: 0.74rem;
+  font-weight: 850;
+}
+
+.q-card__question {
+  flex: 1 1 auto;
+  margin: 0;
+  color: $text-primary;
+  font-size: 0.95rem;
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.q-card__chevron {
+  color: $text-muted;
+  transition: transform 0.2s ease, color 0.2s ease;
+
+  &--open {
+    color: $accent;
+    transform: rotate(180deg);
+  }
+}
+
+.q-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1rem;
+  border-top: 1px solid $border-color;
+}
+
+.q-card__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+
+  p {
+    margin: 0;
+    color: $text-soft;
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+}
+
+.q-card__tag {
+  width: fit-content;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid;
+  border-radius: 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.q-card__tag--intention {
+  color: #c4a7ff;
+  background: rgba(166, 123, 255, 0.1);
+  border-color: rgba(166, 123, 255, 0.26);
+}
+
+.q-card__tag--answer {
+  color: $success;
+  background: rgba($success, 0.1);
+  border-color: rgba($success, 0.25);
+}
+
+.roadmap-list {
+  position: relative;
+  gap: 1rem;
 }
 
 .roadmap-day {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.75rem 0 0.75rem 3.5rem;
-    position: relative;
-
-    // dot on timeline
-    &::before {
-        content: '';
-        position: absolute;
-        left: 21px;
-        top: 1.05rem;
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        background-color: $bg-card;
-        border: 2px solid $accent;
-    }
-
-    &__header {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-    }
-
-    &__badge {
-        font-size: 0.7rem;
-        font-weight: 700;
-        color: $accent;
-        background-color: rgba($accent, 0.1);
-        border: 1px solid rgba($accent, 0.25);
-        padding: 0.1rem 0.5rem;
-        border-radius: 2rem;
-    }
-
-    &__focus {
-        margin: 0;
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: $text-primary;
-    }
-
-    &__tasks {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-
-        li {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-            font-size: 0.845rem;
-            color: lighten($text-muted, 12%);
-            line-height: 1.5;
-        }
-    }
-
-    &__bullet {
-        flex-shrink: 0;
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background-color: $text-muted;
-        margin-top: 8px;
-    }
+  position: relative;
+  padding: 1rem 1.1rem 1rem 1.25rem;
 }
 
-// ── Right Sidebar ─────────────────────────────────────────────────────────────
+.roadmap-day__header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.75rem;
+}
+
+.roadmap-day__badge {
+  flex: 0 0 auto;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid rgba($accent, 0.32);
+  border-radius: 999px;
+  background: rgba($accent, 0.1);
+  color: $accent;
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.roadmap-day__focus {
+  margin: 0;
+  color: $text-primary;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.roadmap-day__tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    color: $text-soft;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+}
+
+.roadmap-day__bullet {
+  width: 0.38rem;
+  height: 0.38rem;
+  flex: 0 0 0.38rem;
+  margin-top: 0.52rem;
+  border-radius: 50%;
+  background: $accent;
+}
+
 .interview-sidebar {
-    width: 240px;
-    flex-shrink: 0;
-    padding: 1.75rem 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
+  position: relative;
+  width: 330px;
+  flex: 0 0 330px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 5.9rem 1.4rem 1.4rem;
 }
 
-.sidebar-divider {
-    height: 1px;
-    background-color: $border-color;
-}
-
-// Match Score
-.match-score {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
-
-    &__label {
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: $text-muted;
-        margin: 0;
-        align-self: flex-start;
-    }
-
-    &__ring {
-        width: 90px;
-        height: 90px;
-        border-radius: 50%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        border: 4px solid;
-
-        &.score--high {
-            border-color: $severity-low;
-        }
-
-        &.score--mid {
-            border-color: $severity-medium;
-        }
-
-        &.score--low {
-            border-color: $severity-high;
-        }
-    }
-
-    &__value {
-        font-size: 1.6rem;
-        font-weight: 800;
-        color: $text-primary;
-        line-height: 1;
-    }
-
-    &__pct {
-        font-size: 0.75rem;
-        color: $text-muted;
-        margin-top: -2px;
-    }
-
-    &__sub {
-        margin: 0;
-        font-size: 0.75rem;
-        color: $severity-low;
-        text-align: center;
-    }
-}
-
-// Skill Gaps
+.match-score,
 .skill-gaps {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+  border: 1px solid $border-color;
+  border-radius: 1.15rem;
+  background:
+    linear-gradient(135deg, rgba(20, 28, 38, 0.98), rgba(12, 17, 23, 0.98)),
+    $bg-card;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.035),
+    0 16px 42px rgba(0, 0, 0, 0.16);
+}
 
-    &__label {
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: $text-muted;
-        margin: 0;
-    }
+.match-score {
+  position: static;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.45rem;
+  text-align: center;
+}
 
-    &__list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
+.match-score__label {
+  width: 100%;
+  padding-right: 0;
+  text-align: center;
+}
+
+.match-score .btn-logout {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.4rem;
+}
+
+.match-score__ring {
+  --score-color: #{$success};
+  position: relative;
+  width: clamp(8.5rem, 15vw, 11rem);
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.45rem;
+  border-radius: 50%;
+  background: conic-gradient(from -86deg, var(--score-color) 0 318deg, rgba(80, 103, 122, 0.26) 318deg 360deg);
+  color: $text-primary;
+  filter: drop-shadow(0 8px 20px rgba($success, 0.17));
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0.85rem;
+    border-radius: inherit;
+    background:
+      radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.04), transparent 42%),
+      #091219;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.34);
+  }
+
+  &.score--mid {
+    --score-color: #{$warning};
+    background: conic-gradient(from -86deg, var(--score-color) 0 252deg, rgba(80, 103, 122, 0.26) 252deg 360deg);
+    filter: drop-shadow(0 8px 20px rgba($warning, 0.14));
+  }
+
+  &.score--low {
+    --score-color: #{$danger};
+    background: conic-gradient(from -86deg, var(--score-color) 0 168deg, rgba(80, 103, 122, 0.26) 168deg 360deg);
+    filter: drop-shadow(0 8px 20px rgba($danger, 0.13));
+  }
+}
+
+.match-score__value,
+.match-score__pct {
+  position: relative;
+  z-index: 1;
+}
+
+.match-score__value {
+  color: #ffffff;
+  font-size: clamp(2.6rem, 5vw, 4.1rem);
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 0.9;
+  text-shadow: 0 2px 12px rgba(255, 255, 255, 0.2);
+}
+
+.match-score__pct {
+  margin-top: 0.35rem;
+  color: $text-soft;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.match-score__sub {
+  margin: 0;
+  color: $success;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-weight: 850;
+  line-height: 1.25;
+}
+
+.skill-gaps {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.skill-gaps__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.7rem;
 }
 
 .skill-tag {
-    font-size: 0.775rem;
-    font-weight: 500;
-    padding: 0.3rem 0.7rem;
-    border-radius: 0.4rem;
-    border: 1px solid;
-    cursor: default;
+  max-width: 100%;
+  min-height: 2.45rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid;
+  border-radius: 0.72rem;
+  font-size: 0.92rem;
+  font-weight: 850;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
 
-    &--high {
-        color: $severity-high;
-        background-color: rgba($severity-high, 0.1);
-        border-color: rgba($severity-high, 0.25);
-    }
+.skill-tag--high,
+.skill-tag--medium {
+  color: $warning;
+  background: rgba($warning, 0.065);
+  border-color: rgba($warning, 0.78);
+}
 
-    &--medium {
-        color: $severity-medium;
-        background-color: rgba($severity-medium, 0.1);
-        border-color: rgba($severity-medium, 0.25);
-    }
+.skill-tag--low {
+  color: $success;
+  background: rgba($success, 0.055);
+  border-color: rgba($success, 0.74);
+}
 
-    &--low {
-        color: $severity-low;
-        background-color: rgba($severity-low, 0.1);
-        border-color: rgba($severity-low, 0.25);
+@media (max-width: 1180px) {
+  .interview-layout {
+    flex-wrap: wrap;
+  }
+
+  .interview-divider {
+    display: none;
+  }
+
+  .interview-sidebar {
+    order: 1;
+    width: 100%;
+    flex-basis: 100%;
+    display: grid;
+    grid-template-columns: minmax(260px, 0.8fr) minmax(320px, 1.2fr);
+    align-items: stretch;
+    border-bottom: 1px solid $border-color;
+  }
+
+  .sidebar-divider {
+    display: none;
+  }
+
+  .interview-nav {
+    order: 2;
+    width: 100%;
+    flex-basis: 100%;
+    border-bottom: 1px solid $border-color;
+  }
+
+  .nav-content {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .interview-nav__label {
+    display: none;
+  }
+
+  .interview-nav__bottom-buttons {
+    justify-content: flex-end;
+  }
+
+  .btn-resume {
+    width: min(100%, 360px);
+  }
+
+  .interview-content {
+    order: 3;
+    flex-basis: 100%;
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 760px) {
+  .interview-page {
+    padding: 1.45rem;
+  }
+
+  .interview-layout {
+    min-height: 0;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    gap: 1.55rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .interview-sidebar {
+    width: 100%;
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.55rem;
+    padding: 5.15rem 0 0;
+    border: 0;
+  }
+
+  .match-score,
+  .skill-gaps,
+  .nav-content {
+    border-radius: 1.35rem;
+    background:
+      linear-gradient(140deg, rgba(20, 28, 38, 0.98), rgba(12, 17, 23, 0.98)),
+      $bg-card;
+    border: 1px solid $border-color;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.045),
+      0 18px 42px rgba(0, 0, 0, 0.28);
+  }
+
+  .match-score {
+    padding: 2.35rem clamp(1.25rem, 5vw, 2rem) 2.1rem;
+    gap: 1.3rem;
+  }
+
+  .match-score__label,
+  .skill-gaps__label {
+    padding: 0;
+    text-align: center;
+    font-size: clamp(1rem, 3.2vw, 1.18rem);
+    letter-spacing: 0.19em;
+  }
+
+  .match-score .btn-logout {
+    top: 0;
+    right: 0;
+    min-height: 4rem;
+    padding: 0.95rem 1.35rem;
+    border-radius: 1.35rem;
+    font-size: clamp(1rem, 3vw, 1.25rem);
+  }
+
+  .button.btn-logout::before {
+    width: 1.65rem;
+    height: 1.65rem;
+    flex-basis: 1.65rem;
+  }
+
+  .match-score__ring {
+    width: clamp(10.2rem, 36vw, 13.5rem);
+    margin-top: 0.2rem;
+
+    &::before {
+      inset: 0.85rem;
     }
+  }
+
+  .match-score__sub {
+    font-size: clamp(1.28rem, 4.2vw, 1.55rem);
+  }
+
+  .skill-gaps {
+    gap: 1.25rem;
+    padding: clamp(1.35rem, 5vw, 2rem);
+  }
+
+  .skill-gaps__label {
+    text-align: left;
+  }
+
+  .skill-gaps__list {
+    gap: 0.9rem;
+  }
+
+  .skill-tag {
+    min-height: clamp(3.1rem, 10vw, 4.2rem);
+    padding: 0.78rem 1rem;
+    border-radius: 0.78rem;
+    font-size: clamp(1rem, 3.4vw, 1.35rem);
+  }
+
+  .interview-nav {
+    width: 100%;
+    order: 2;
+    flex-basis: auto;
+    gap: 1.55rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .nav-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.05rem;
+    padding: clamp(1.15rem, 4vw, 1.7rem);
+  }
+
+  .interview-nav__item {
+    min-height: clamp(4.2rem, 13vw, 5.3rem);
+    padding: 0.95rem clamp(1.15rem, 4vw, 1.6rem);
+    border-radius: 999px;
+    background: rgba(22, 30, 41, 0.92);
+    color: $text-soft;
+    font-size: clamp(1.1rem, 3.8vw, 1.42rem);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  }
+
+  .interview-nav__item--active {
+    border-color: rgba($accent, 0.95);
+    color: $accent;
+    background: rgba($accent, 0.055);
+  }
+
+  .interview-nav__icon {
+    width: 1.8rem;
+    height: 1.8rem;
+    flex-basis: 1.8rem;
+  }
+
+  .interview-nav__bottom-buttons {
+    display: block;
+  }
+
+  .button.primary-button.btn-resume {
+    width: 100%;
+    min-height: clamp(4.4rem, 14vw, 5.35rem);
+    border-radius: 0.95rem;
+    font-size: clamp(1rem, 3.6vw, 1.32rem);
+    letter-spacing: 0.02em;
+  }
+
+  .button.btn-resume::before {
+    width: 1.9rem;
+    height: 1.9rem;
+    flex-basis: 1.9rem;
+  }
+
+  .interview-content {
+    width: 100%;
+    order: 3;
+    padding: 0 0 1.5rem;
+  }
+
+  .content-header {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    padding-bottom: 0.85rem;
+  }
+
+  .q-card,
+  .roadmap-day {
+    border-radius: 0.95rem;
+  }
+}
+
+@media (max-width: 460px) {
+  .interview-page {
+    padding: 1rem;
+  }
+
+  .interview-layout,
+  .interview-sidebar,
+  .interview-nav {
+    gap: 1.1rem;
+  }
+
+  .interview-sidebar {
+    padding-top: 4.35rem;
+  }
+
+  .match-score .btn-logout {
+    top: 0;
+    min-height: 3.45rem;
+    padding-inline: 1.05rem;
+    border-radius: 1.05rem;
+  }
+
+  .match-score,
+  .skill-gaps,
+  .nav-content {
+    border-radius: 1rem;
+  }
+
+  .match-score {
+    padding-block: 1.6rem;
+  }
+
+  .match-score__ring {
+    width: clamp(8.8rem, 52vw, 11.2rem);
+  }
+
+  .match-score__value {
+    font-size: clamp(2.45rem, 13vw, 3.4rem);
+  }
+
+  .skill-tag {
+    width: 100%;
+  }
+
+  .interview-nav__item {
+    min-height: 3.8rem;
+  }
+
+  .q-card__header,
+  .q-card__body,
+  .roadmap-day {
+    padding: 0.9rem;
+  }
 }
