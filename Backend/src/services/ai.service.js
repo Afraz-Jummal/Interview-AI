@@ -41,14 +41,38 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
                         Job Description: ${jobDescription}
 `
 
-    const response = await ai.models.generateContent({
+    // const response = await ai.models.generateContent({
+    //     model: "gemini-2.5-flash",
+    //     contents: prompt,
+    //     config: {
+    //         responseMimeType: "application/json",
+    //         responseSchema: zodToJsonSchema(interviewReportSchema),
+    //     }
+    // })
+
+    let response;
+
+    try {
+    response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
         contents: prompt,
         config: {
-            responseMimeType: "application/json",
-            responseSchema: zodToJsonSchema(interviewReportSchema),
-        }
-    })
+                responseMimeType: "application/json",
+                responseSchema: zodToJsonSchema(interviewReportSchema),
+            }
+    });
+    } catch (error) {
+    console.log("Primary model failed, trying fallback...");
+
+    response = await ai.models.generateContent({
+        model: "gemini-1.5-flash",
+        contents: prompt,
+        config: {
+                responseMimeType: "application/json",
+                responseSchema: zodToJsonSchema(interviewReportSchema),
+            }
+    });
+    }
 
     return JSON.parse(response.text)
 
