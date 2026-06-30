@@ -17,8 +17,12 @@ const Register = () => {
         navigate("/")
     }
 
-    if(loading){
-        return (<main><h1>Loading.......</h1></main>)
+    if (loading ) {
+        return (
+            <main className='loading-screen'>
+                <h1>Loading your interview plan...</h1>
+            </main>
+        )
     }
 
     return (
